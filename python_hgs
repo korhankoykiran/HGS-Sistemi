@@ -1,0 +1,77 @@
+#Mevcut komut satırlarında 1.araç sınıfı otomobil, 2. araç sınıfı minibüs, 3.araç sınıfı otobüs olarak tanımlanmıştır.
+from typing import Type, TypeVar
+class araba:
+   def __init__(self,aracinsinifi,hgs_no,ad_soyad,tarih_saat,bakiye):
+    self.aracinsinifi = input('Aracın sınıfı: ')
+    if self.aracinsinifi == '1':
+       print("Araç bir Otomobil")
+    elif self.aracinsinifi == "2":
+       print("Araç bir Minibüs")
+    elif self.aracinsinifi == "3":
+       print("Araç bir Otobüs")  
+    else:
+       print("Lütfen Geçerli Bir Araç Sınıfı Giriniz") 
+    self.numara = input('HGS Numarası: ')
+    self.adsoyad = input('Araç Sahibi: ')
+    self.tarihsaat = input('Tarih/Saat: ')
+    self.kalanbakiye = input('Mevcut Bakiye: ')
+   def printname(self):
+       print(self.aracinsinifi,self.numara,self.adsoyad,self.tarihsaat,self.kalanbakiye,self.aracinsinifi)
+   
+
+
+class otomobil(araba):
+  pass
+
+class minibus(araba):
+  pass
+
+class otobus(araba):
+  pass
+
+T = TypeVar('T', bound=araba)
+
+#Gişe sınıfında geçen arabanın sınıfına göre otomobillerden 40, minibüslerden 60 ve otobüslerden 100 lira kesilmektedir.
+class Gise():
+  def odeme(araba_tipi: Type[T]) -> T:
+    if isinstance(araba_tipi, otomobil):  
+      araba_tipi.kalanbakiye = int(araba_tipi.kalanbakiye) - 40
+      print("Kalan Bakiye:", araba_tipi.kalanbakiye)
+    elif isinstance(araba_tipi, otobus):  
+      araba_tipi.kalanbakiye = int(araba_tipi.kalanbakiye) - 100
+      print("Kalan Bakiye:", araba_tipi.kalanbakiye)      
+    elif isinstance(araba_tipi, minibus):  
+      araba_tipi.kalanbakiye = int(araba_tipi.kalanbakiye) - 60
+      print("Kalan Bakiye:", araba_tipi.kalanbakiye)       
+
+#Yönetim sınıfında araçlardan kesilen ücretlerin toplamları belirlenmiştir.
+class Yonetim():
+  def total_bakiye(list):
+      totalbakiye = 0
+      for obj in list:
+        if isinstance(obj, otomobil):
+          totalbakiye = totalbakiye + 40
+        elif isinstance(obj, minibus):
+          totalbakiye = totalbakiye + 60
+        elif isinstance(obj, otobus):
+          totalbakiye = totalbakiye + 100                    
+      print("Toplam Günlük Bakiye: ",  totalbakiye)  
+  
+  def listele(list):
+    for obj in list:
+      print(obj.numara, obj.adsoyad, obj.tarihsaat, obj.kalanbakiye )
+
+list = []
+
+list.append( otomobil("", "","","","") )
+Gise.odeme(list[-1])
+list.append( otobus("", "","","","") )
+Gise.odeme(list[-1])
+list.append( minibus("", "","","","") )
+Gise.odeme(list[-1])
+
+
+
+
+Yonetim.total_bakiye(list)
+Yonetim.listele(list)
